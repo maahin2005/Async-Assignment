@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slide Shaw Assignment</title>
+
+    <style>
+      #container {
+        margin: auto;
+      }
+      #container > div {
+        width: 80%;
+        margin: auto;
+        height: 500px;
+
+        text-align: center;
+      }
+
+      #inner_img {
+        width: 80%;
+        height: 100%;
+      }
+
+      .btndiv {
+        display: flex;
+
+        justify-content: center;
+
+        gap: 10px;
+      }
+
+      .btndiv > button {
+        margin-top: 20px;
+
+        height: 80px;
+        width: 80px;
+
+        background-color: #1a73e8;
+
+        color: #fff;
+
+        font-size: 30px;
+
+        font-weight: bold;
+
+        border-radius: 50%;
+
+        border: none;
+      }
+
+      .btndiv > button:nth-child(2) {
+        background-color: rgb(249, 100, 150);
+      }
+
+      .btndiv > button:hover {
+        cursor: pointer;
+
+        background-color: #1b66c9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <div class="btndiv">
+      <button onclick="prevFunction()" id="prev">&#x21D0;</button>
+      <button onclick="startFunction()" id="start">Start</button>
+      <button onclick="nextFunction()" id="next">&#x21D2;</button>
+    </div>
+  </body>
+</html>
+<script>
+  let container = document.getElementById("container");
+
+  let prev = document.getElementById("prev");
+  let start = document.getElementById("start");
+  let next = document.getElementById("next");
+
+  let startInterval;
+
+  let div = document.createElement("div");
+  div.setAttribute("id", "inner_cont");
+
+  let imgSrc = [
+    "https://free4kwallpapers.com/uploads/originals/2015/10/04/nature._.jpg",
+    "https://th.bing.com/th/id/OIP.eqqnIaxaDi5VypDVyMaUHwHaE7?rs=1&pid=ImgDetMain",
+    "https://wallpaperaccess.com/full/1670857.jpg",
+    "https://www.10wallpaper.com/wallpaper/1920x1200/1508/Simple_nature_landscape_HD_wallpaper_08_1920x1200.jpg",
+    "https://i.pinimg.com/736x/0f/79/6c/0f796cf18c24d6b597291e9ebc9c49e6--pink-trees-pink-flowering-trees.jpg",
+    "https://i.pinimg.com/474x/43/0d/1e/430d1e5c9147bfc9f9bdd2ce1a5373fb.jpg",
+    "https://i.pinimg.com/736x/7d/e5/64/7de5648ae13f64f19af6f3e4f071584b--purple-trees-purple-flowers.jpg",
+    "https://www.wallpaperflare.com/static/257/291/587/trees-nature-landscape-lake-wallpaper.jpg",
+    "https://i.pinimg.com/originals/81/25/61/812561db85c08507c5a5afac17743e8a.jpg",
+    "https://th.bing.com/th/id/OIP.I3jnUpNrtXCXouGyixNgdQHaEK?rs=1&pid=ImgDetMain",
+    "https://wallpaperaccess.com/full/1129212.jpg",
+    "https://wallup.net/wp-content/uploads/2015/12/152776-simple_background-simple-road-trees-landscape-nature.jpg",
+    "https://wallpaperaccess.com/full/1183596.jpg",
+    "https://wallpaperaccess.com/full/1670749.jpg",
+    "https://wallpaperaccess.com/full/2853428.jpg",
+    "https://wallpapercave.com/wp/wp6622477.jpg",
+    "https://th.bing.com/th/id/R.31cccb40a44c2985cca8b82a7be4341e?rik=Or7CHbFbsXckXA&riu=http%3a%2f%2fhdqwalls.com%2fwallpapers%2fsimple-nature.jpg&ehk=hLQP5UB5avBhMw8qMfnQvrUi77eehxFXUedPtkTifdA%3d&risl=&pid=ImgRaw&r=0",
+    "https://i2.wp.com/techbeasts.com/wp-content/uploads/2016/01/green_mountain_nature_wallpaper_hd.jpg",
+    "https://th.bing.com/th/id/R.8ad8553e1d7fc5a8d39611f2a199873a?rik=pM7TYAb6IDoQew&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f08%2fHD-Best-Nature-Wallpapers-For-Desktop.jpg&ehk=YqvOwOnHgHnt5VEnUodfYzGSZwTGaGOt03tKjkEogDM%3d&risl=&pid=ImgRaw&r=0",
+    "https://th.bing.com/th/id/R.5df5bb95fbc3a074c4e28fe425903968?rik=GSFyasOTFixcKA&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f03%2fnature-wallpaper-desktop.jpg&ehk=35UrthcIluvUxazwrVEnyghvzsw3urlwGcfSOJbSqBk%3d&risl=&pid=ImgRaw&r=0",
+  ];
+
+  console.log(imgSrc.length);
+  let img = document.createElement("img");
+  img.setAttribute("id", "inner_img");
+  img.src = imgSrc[0];
+
+  let currentImageIndex = 0;
+
+  function changeImage() {
+    if (currentImageIndex === imgSrc.length - 1) {
+      currentImageIndex = 0;
+    } else {
+      currentImageIndex++;
+    }
+    img.src = imgSrc[currentImageIndex];
+  }
+
+  function prevFunction() {
+    if (currentImageIndex === 0) {
+      currentImageIndex = imgSrc.length - 1;
+    } else {
+      currentImageIndex--;
+    }
+
+    img.src = imgSrc[currentImageIndex];
+  }
+
+  function startFunction() {
+    if (start.innerText === "Start") {
+      start.innerHTML = "&#x23F8;";
+
+      startInterval = setInterval(changeImage, 2000);
+    } else {
+      clearInterval(startInterval);
+      console.log(start.innerHTML, "in");
+      start.innerHTML = "Start";
+    }
+  }
+
+  function nextFunction() {
+    if (currentImageIndex === imgSrc.length - 1) {
+      currentImageIndex = 0;
+    } else {
+      currentImageIndex++;
+    }
+
+    img.src = imgSrc[currentImageIndex];
+  }
+
+  div.append(img);
+  container.appendChild(div);
+</script>
